@@ -10,10 +10,13 @@ public class Weapon : MonoBehaviour
     /// </summary>
     [SerializeField] private int currentWeaponType;
     [SerializeField] private float currentWeaponDamage;
+
+    [SerializeField] private GameObject[] weaponObject;
+    [SerializeField] private GameObject currentWeapon;
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.setupWeapon(0);
     }
 
     // Update is called once per frame
@@ -30,9 +33,11 @@ public class Weapon : MonoBehaviour
         switch (weapon) {
             case 0:
                 this.currentWeaponDamage = 1.2f;
+                this.currentWeapon = this.weaponObject[0];
                 break;
             case 1:
                 this.currentWeaponDamage = 0.5f;
+                this.currentWeapon = this.weaponObject[1];
                 break;
         }
     }

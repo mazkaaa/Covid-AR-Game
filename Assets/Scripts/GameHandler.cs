@@ -39,4 +39,11 @@ public class GameHandler : MonoBehaviour
     public void setRandomSpawnEnemy() {
         Instantiate(enemyObject, enemySpawner[Random.Range(0, enemySpawner.Length)].transform);
     }
+
+    public void setGameStarted(bool value) {
+        this.gameStarted = value;
+    }
+    public bool getGameStatus() {
+        return this.gameStarted;
+    }
 }
