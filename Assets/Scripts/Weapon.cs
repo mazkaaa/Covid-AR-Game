@@ -34,10 +34,14 @@ public class Weapon : MonoBehaviour
             case 0:
                 this.currentWeaponDamage = 1.2f;
                 this.currentWeapon = this.weaponObject[0];
+                this.weaponObject[0].SetActive(true);
+                this.weaponObject[1].SetActive(false);
                 break;
             case 1:
                 this.currentWeaponDamage = 0.5f;
                 this.currentWeapon = this.weaponObject[1];
+                this.weaponObject[0].SetActive(false);
+                this.weaponObject[1].SetActive(true);
                 break;
         }
     }
@@ -48,5 +52,11 @@ public class Weapon : MonoBehaviour
 
     public float getCurrentWeaponDamage() {
         return this.currentWeaponDamage;
+    }
+    public void shootSpray(){
+        ParticleSystem sprayBullet = this.currentWeapon.GetComponentInChildren<ParticleSystem>();
+        if (!sprayBullet.isPlaying){
+            sprayBullet.Play();
+        }
     }
 }

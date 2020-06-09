@@ -9,20 +9,27 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject player;
 
     [SerializeField] private Material[] virusColor;
-    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Weapon weapon;
+
+    [SerializeField] private ParticleSystem particle;
+    [SerializeField] private List<ParticleCollisionEvent> collisionEvents;
+
+    [SerializeField] private Coin coinAPI;
 
     private bool chasing = false;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        rb = gameObject.GetComponent<Rigidbody>();
+        weapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<Weapon>();
+        coinAPI = GameObject.FindGameObjectWithTag("GameHandler").GetComponent<Coin>();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (this.healthPoint < 0.1f) {
+            coinAPI.addCurrentCoin(1);
             this.dead();
         }
     }
@@ -32,11 +39,13 @@ public class Enemy : MonoBehaviour
     }
 
     public void chase() {
-        rb.AddForce(player.transform.position * 1f);
+        //rb.AddForce(player.transform.position * 1f);
+        gameObject.transform.Translate(player.transform.position * 1f);
     }
 
     public void stopChasing() {
-        rb.AddForce(player.transform.position * 0f);
+        //rb.AddForce(player.transform.position * 0f);
+        gameObject.transform.Translate(player.transform.position * 0f);
     }
 
     public void dead() {
@@ -64,8 +73,16 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
-            this.stopChasing();
-            this.attack();
+            //this.stopChasing();
+            //this.attack();
         }
     }
+
+    private void OnParticleCollision(GameObject other) {
+        if (other.tag == "Firepoint") {
+            this.takeDamage(weapon.getCurrentWeaponDamage());
+        }
+    }
+
+
 }

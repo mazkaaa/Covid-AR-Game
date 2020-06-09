@@ -13,7 +13,8 @@ public class GameHandler : MonoBehaviour
 
     [SerializeField] private GameObject[] enemySpawner;
     [SerializeField] private GameObject enemyObject;
-    [SerializeField] private Enemy enemyAPI;
+
+    [SerializeField] private Player player;
 
     [SerializeField] private bool gameStarted;
     // Start is called before the first frame update
@@ -30,6 +31,11 @@ public class GameHandler : MonoBehaviour
             if (chance > 70) {
                 setRandomSpawnEnemy();
             }
+
+            if (player.getCurrentHealth() < 0.1f){
+                this.setGameOver();
+            }
+            
         }
     }
 
@@ -45,5 +51,9 @@ public class GameHandler : MonoBehaviour
     }
     public bool getGameStatus() {
         return this.gameStarted;
+    }
+
+    public void setGameOver(){
+
     }
 }
