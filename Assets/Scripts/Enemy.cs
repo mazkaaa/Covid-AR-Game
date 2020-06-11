@@ -6,23 +6,30 @@ public class Enemy : MonoBehaviour
 {
 
     [SerializeField] private float healthPoint; //5
-    [SerializeField] private GameObject player;
+    [SerializeField] public GameObject playerObject;
 
     [SerializeField] private Material[] virusColor;
-    [SerializeField] private Weapon weapon;
+    [SerializeField] public Weapon weapon;
 
     [SerializeField] private ParticleSystem particle;
     [SerializeField] private List<ParticleCollisionEvent> collisionEvents;
 
-    [SerializeField] private Coin coinAPI;
+    [SerializeField] public Coin coinAPI;
+    [SerializeField] public Player playerAPI;
+
+    [SerializeField] private float virusSpeed;
+    private Vector3 tempPos;
 
     private bool chasing = false;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        weapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<Weapon>();
-        coinAPI = GameObject.FindGameObjectWithTag("GameHandler").GetComponent<Coin>();
+        tempPos = gameObject.transform.position;
+        this.virusSpeed = 0.2f;
+        //playerObject = GameObject.FindWithTag("Player");
+        //weapon = GameObject.FindWithTag("Weapon").GetComponent<Weapon>();
+        //coinAPI = GameObject.FindWithTag("GameHandler").GetComponent<Coin>();
+        //playerAPI = GameObject.FindWithTag("GameHandler").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -32,6 +39,17 @@ public class Enemy : MonoBehaviour
             coinAPI.addCurrentCoin(1);
             this.dead();
         }
+        if (this.chasing){
+            //this.chase();
+        } else {
+            if (Random.Range(0, 100) > 50){
+                gameObject.transform.Translate(new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)) * this.virusSpeed);
+            } else {
+                gameObject.transform.Translate(playerObject.transform.position * this.virusSpeed);
+                Debug.Log(playerObject.transform.position);
+            }
+            //gameObject.transform.Translate(tempPos * this.virusSpeed);
+        }
     }
 
     public void attack() {
@@ -40,12 +58,12 @@ public class Enemy : MonoBehaviour
 
     public void chase() {
         //rb.AddForce(player.transform.position * 1f);
-        gameObject.transform.Translate(player.transform.position * 1f);
+        gameObject.transform.Translate(playerObject.transform.position * this.virusSpeed);
     }
 
     public void stopChasing() {
         //rb.AddForce(player.transform.position * 0f);
-        gameObject.transform.Translate(player.transform.position * 0f);
+        gameObject.transform.Translate(playerObject.transform.position * this.virusSpeed);
     }
 
     public void dead() {
@@ -64,17 +82,27 @@ public class Enemy : MonoBehaviour
         switch (index) {
             case 0:
                 this.stopChasing();
+                this.chasing = false;
                 break;
             case 1:
                 this.chase();
+                this.chasing = true;
                 break;
         }
     }
 
+    public void setVirusHealth(float value){
+        this.healthPoint = value;
+    }
+
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
-            //this.stopChasing();
-            //this.attack();
+            this.setVirusMode(0);
+            playerAPI.takeCurrentHealth(1);
+            this.dead();
+        }
+        if (other.tag == "PlayerDetection"){
+            this.setVirusMode(1);
         }
     }
 
@@ -83,6 +111,8 @@ public class Enemy : MonoBehaviour
             this.takeDamage(weapon.getCurrentWeaponDamage());
         }
     }
+
+
 
 
 }
