@@ -6,8 +6,7 @@ using TMPro;
 public class GameHandler : MonoBehaviour
 {
 
-    [SerializeField] private TMP_Text coinValueText;
-    [SerializeField] private TMP_Text coinSavedText;
+    [SerializeField] private TMP_Text coinValueText, coinValueTextGameover, scoreValueText, scoreValueTextGameover;
 
     [SerializeField] private Coin coinAPI;
 
@@ -16,31 +15,48 @@ public class GameHandler : MonoBehaviour
 
     [SerializeField] private Player player;
 
-    [SerializeField] private bool gameStarted;
+    [SerializeField] private bool gameStarted = false, currentWave = false;
 
     [SerializeField] private GameObject playerObject;
-    [SerializeField] private int enemyWave = 0;
+    [SerializeField] private int enemyWave = 0, enemyCount = 0;
+
+    [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private MenuHandler menuHandler;
     // Start is called before the first frame update
     void Start()
     {
-        this.gameStarted = true;
+        //this.gameStarted = true;
+        Time.timeScale = 0;
+        this.menuHandler.openTutorScreen();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (this.gameStarted) {
-            int chance = Random.Range(0, 100);
-            if (chance > 95 && this.enemyWave < this.enemySpawner.Length) {
-                setRandomSpawnEnemy();
-                this.enemyWave++;
-            }
-
-            if (player.getCurrentHealth() < 0.1f){
-                this.setGameOver();
-            }
-            
+            this.detectNoHealth();
+            this.spawnerHandler();
         }
+        this.coinValueText.text = this.coinAPI.getCurrentCoin().ToString();
+        this.scoreValueText.text = this.scoreManager.getScore().ToString();
+        this.coinValueTextGameover.text = "Collected Coin: " + this.coinAPI.getCurrentCoin().ToString();
+        this.scoreValueTextGameover.text = "Score: " + this.scoreManager.getScore().ToString();
+    }
+
+    private void detectNoHealth() {
+        if (player.getCurrentHealth() < 0.1) {
+            this.setGameOver();
+        }
+    }
+    private void spawnerHandler() {
+        int chance = Random.Range(0, 100);
+        if (chance > 98) {
+            if (this.enemyCount < this.enemySpawner.Length) {
+                this.setRandomSpawnEnemy();
+                this.enemyCount++;
+            }
+        }
+
     }
 
     /// <summary>
@@ -53,7 +69,9 @@ public class GameHandler : MonoBehaviour
         virusClone.GetComponent<Enemy>().coinAPI = gameObject.GetComponent<Coin>();
         virusClone.GetComponent<Enemy>().weapon = gameObject.GetComponent<Weapon>();
         virusClone.GetComponent<Enemy>().playerAPI = gameObject.GetComponent<Player>();
-        virusClone.GetComponent<Enemy>().playerObject = this.playerObject;
+        virusClone.GetComponent<Enemy>().playerObject = playerObject;
+        virusClone.GetComponent<Enemy>().gameHandler = this;
+        virusClone.GetComponent<Enemy>().scoreManager = gameObject.GetComponent<ScoreManager>();
     }
 
     public void setGameStarted(bool value) {
@@ -64,6 +82,11 @@ public class GameHandler : MonoBehaviour
     }
 
     public void setGameOver(){
+        this.setGameStarted(false);
+        this.menuHandler.gameoverScreen();
+    }
 
+    public void takeVirusCount() {
+        this.enemyCount--;
     }
 }

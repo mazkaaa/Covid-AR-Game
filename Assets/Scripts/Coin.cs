@@ -37,6 +37,10 @@ public class Coin : MonoBehaviour
         PlayerPrefs.SetInt(coinKey, (PlayerPrefs.GetInt(coinKey) + value));
         PlayerPrefs.Save();
     }
+    public void takeTotalSavedCoin(int value){
+        PlayerPrefs.SetInt(coinKey, (PlayerPrefs.GetInt(coinKey) - value));
+        PlayerPrefs.Save();
+    }
 
 
     public int getCurrentCoin(){
