@@ -74,9 +74,25 @@ public class GameHandler : MonoBehaviour
         virusClone.GetComponent<Enemy>().scoreManager = gameObject.GetComponent<ScoreManager>();
     }
 
+    /// <summary>
+    /// Set the game status value, like started or paused.
+    /// </summary>
     public void setGameStarted(bool value) {
         this.gameStarted = value;
+        this.setTheTimeScale(value);
     }
+
+    private void setTheTimeScale(bool value){
+        if (value){
+            Time.timeScale = 1;
+        } else {
+            Time.timeScale = 0;
+        }
+    }
+
+    /// <summary>
+    /// Getting game status value, like paused or not.
+    /// </summary>
     public bool getGameStatus() {
         return this.gameStarted;
     }

@@ -62,9 +62,13 @@ public class Enemy : MonoBehaviour
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, playerObject.transform.position, virusSpeed * Time.deltaTime);
     }
     public void idling(){
-        if (Random.Range(0, 100) > 60){
-            gameObject.transform.Translate(new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)) * this.virusSpeed);
-            //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)), virusSpeed * Time.deltaTime);
+        if (this.gameHandler.getGameStatus()){
+            if (Random.Range(0, 100) > 60){
+                gameObject.transform.Translate(new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)) * this.virusSpeed);
+                //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)), virusSpeed * Time.deltaTime);
+            }
+        } else {
+            
         }
     }
 

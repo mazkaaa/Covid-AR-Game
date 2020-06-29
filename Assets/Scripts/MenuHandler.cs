@@ -25,17 +25,20 @@ public class MenuHandler : MonoBehaviour
     }
 
     public void pauseGame() {
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
+        this.gameHandler.setGameStarted(false);
         this.pauseScreenObject.SetActive(true);
     }
 
     public void resumeGame() {
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
+        this.gameHandler.setGameStarted(true);
         this.pauseScreenObject.SetActive(false);
     }
 
     public void gameoverScreen(){
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
+        this.gameHandler.setGameStarted(false);
         this.gameoverScreenObject.SetActive(true);
     }
 
@@ -56,5 +59,12 @@ public class MenuHandler : MonoBehaviour
     }
     public void openTutorScreen(){
         this.tutorScreen.SetActive(true);
+    }
+
+    public void openLoadout(){
+
+    }
+    public void closeLoadout(){
+
     }
 }

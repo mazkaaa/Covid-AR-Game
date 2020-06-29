@@ -7,17 +7,19 @@ public class LoadoutHandler : MonoBehaviour
 {
     public ItemList[] itemObjectLists;
     public LoadoutItems[] loadoutDataItems;
+    public TMP_Text coinvalText;
     public Coin coinAPI;
     // Start is called before the first frame update
     void Start()
     {
+        //this.coinAPI.addTotalSavedCoin(999999);
         this.getAllDataToInterface();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        this.coinvalText.text = "coin: " + this.coinAPI.getTotalSavedCoin().ToString();
     }
 
     private void getAllDataToInterface(){

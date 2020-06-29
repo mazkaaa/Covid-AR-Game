@@ -2949,6 +2949,9 @@ MonoBehaviour:
   - {fileID: 1342722726}
   - {fileID: 1859126770}
   currentWeapon: {fileID: 0}
+  loadoutItems:
+  - {fileID: 11400000, guid: 636ab1a9c2db86c47a317724cef2d3c0, type: 2}
+  - {fileID: 11400000, guid: c12e7d7ca3b7fe042a886751e59c686a, type: 2}
 --- !u!114 &1290952689
 MonoBehaviour:
   m_ObjectHideFlags: 0

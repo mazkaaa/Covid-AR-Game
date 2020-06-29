@@ -7,6 +7,7 @@ public class WeaponHandler : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField] private ParticleSystem part;
+    
     [SerializeField] private Weapon weapon;
     /*public float hSliderValueR = 0.0F;
     public float hSliderValueG = 0.0F;
