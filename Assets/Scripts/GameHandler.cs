@@ -100,6 +100,7 @@ public class GameHandler : MonoBehaviour
     public void setGameOver(){
         this.setGameStarted(false);
         this.menuHandler.gameoverScreen();
+        this.scoreManager.saveToLeaderboard();
     }
 
     public void takeVirusCount() {

@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         if (this.healthPoint < 0.1f) {
-            coinAPI.addCurrentCoin(1);
+            coinAPI.addCurrentCoin(Random.Range(1, 10));
             scoreManager.addScore(Random.Range(2, 18));
             this.dead();
         }
