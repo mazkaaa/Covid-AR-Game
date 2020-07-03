@@ -22,6 +22,7 @@ public class LeaderboardHandler : MonoBehaviour
 
     public void addDataToUI(){
         for (int i = 0; i < this.highscoreText.Length; i++){
+            //this.highscoreText[i].text = "";
             this.highscoreText[i].gameObject.SetActive(false);
         }
         this.scoreAPI.addDataToUI(highscoreText);
