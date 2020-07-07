@@ -16,3 +16,5 @@ MonoBehaviour:
   damage: 1.2
   owned: 1
   equipped: 1
+  price: 0
+  sprayArea: 8

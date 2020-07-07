@@ -22,6 +22,8 @@ public class GameHandler : MonoBehaviour
 
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private MenuHandler menuHandler;
+
+    [SerializeField] private AudioClip virusAudio;
     // Start is called before the first frame update
     void Start()
     {
@@ -72,6 +74,10 @@ public class GameHandler : MonoBehaviour
         virusClone.GetComponent<Enemy>().playerObject = playerObject;
         virusClone.GetComponent<Enemy>().gameHandler = this;
         virusClone.GetComponent<Enemy>().scoreManager = gameObject.GetComponent<ScoreManager>();
+        virusClone.GetComponent<Enemy>().audioSource = virusClone.GetComponent<AudioSource>();
+        virusClone.GetComponent<Enemy>().audioSource.clip = this.virusAudio;
+        virusClone.GetComponent<Enemy>().audioSource = GetComponent<AudioSource>();
+
     }
 
     /// <summary>

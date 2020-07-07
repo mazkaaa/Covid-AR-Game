@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     private Vector3 tempPos;
 
     private bool chasing = false;
+
+    [SerializeField] public AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,8 @@ public class Enemy : MonoBehaviour
         //rb.isKinematic = true;
         tempPos = gameObject.transform.position;
         this.virusSpeed = 0.5f;
+        //this.audioSource = gameObject.GetComponent<AudioSource>();
+        this.audioSource.Play();
         //playerObject = GameObject.FindWithTag("Player");
         //weapon = GameObject.FindWithTag("Weapon").GetComponent<Weapon>();
         //coinAPI = GameObject.FindWithTag("GameHandler").GetComponent<Coin>();

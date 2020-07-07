@@ -13,6 +13,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private GameObject[] weaponObject;
     [SerializeField] private GameObject currentWeapon;
     [SerializeField] private LoadoutItems[] loadoutItems;
+
+    [SerializeField] private AudioSource sprayerAudio;
     // Start is called before the first frame update
     void Start()
     {
@@ -78,8 +80,9 @@ public class Weapon : MonoBehaviour
     }
     public void shootSpray(){
         ParticleSystem sprayBullet = this.currentWeapon.GetComponentInChildren<ParticleSystem>();
-        if (!sprayBullet.isPlaying){
+        if (!sprayBullet.isPlaying || !sprayerAudio.isPlaying){
             sprayBullet.Play();
+            sprayerAudio.Play();
         }
     }
 }
