@@ -85,7 +85,6 @@ public class Enemy : MonoBehaviour
         //rb.WakeUp();
         //rb.isKinematic = false;
         this.setVirusMode(0);
-        playerAPI.takeCurrentHealth(1);
         gameHandler.takeVirusCount();
         Destroy(gameObject);
         Debug.Log("Virus touching player");
@@ -129,6 +128,8 @@ public class Enemy : MonoBehaviour
     private void OnCollisionEnter(Collision collision) {
         if (collision.collider.tag == "Player") {
             this.dead();
+            gameHandler.HitPlayer();
+            playerAPI.takeCurrentHealth(1);
         }
         if (collision.collider.tag == "PlayerDetection") {
             this.setVirusMode(1);
@@ -139,8 +140,4 @@ public class Enemy : MonoBehaviour
             this.takeDamage(weapon.getCurrentWeaponDamage());
         }
     }
-
-
-
-
 }

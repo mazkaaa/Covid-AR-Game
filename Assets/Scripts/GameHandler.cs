@@ -24,12 +24,17 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private MenuHandler menuHandler;
 
     [SerializeField] private AudioClip virusAudio;
+
+
+    public GameObject damageIndicator; //<--Assign in inspector.
+    public float damageDuration = 0.3f; //<--Show canvas for this duration each hit.
     // Start is called before the first frame update
     void Start()
     {
         //this.gameStarted = true;
         Time.timeScale = 0;
         this.menuHandler.openTutorScreen();
+        HideDamageIndicator();
     }
 
     // Update is called once per frame
@@ -111,5 +116,19 @@ public class GameHandler : MonoBehaviour
 
     public void takeVirusCount() {
         this.enemyCount--;
+    }
+
+    public void HitPlayer(){
+        ShowDamageIndicator();
+        CancelInvoke("HideDamageIndicator"); //<--Resets timer if hit before indicator is hidden.
+        Invoke("HideDamageIndicator", damageDuration);
+    }
+ 
+    public void ShowDamageIndicator(){
+        damageIndicator.SetActive(true);
+    }
+ 
+    public void HideDamageIndicator(){
+        damageIndicator.SetActive(false);
     }
 }
