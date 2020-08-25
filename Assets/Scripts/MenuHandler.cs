@@ -28,6 +28,7 @@ public class MenuHandler : MonoBehaviour
         //Time.timeScale = 0;
         this.gameHandler.setGameStarted(false);
         this.pauseScreenObject.SetActive(true);
+        this.gameHandler.HideDamageIndicator();
     }
 
     public void resumeGame() {

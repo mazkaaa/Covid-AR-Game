@@ -39,6 +39,12 @@ public class ScoreManager : MonoBehaviour
     public int getScore(){
         return this.score;
     }
+
+    public void resetLeaderboardData(){
+        if (SaveGame.Exists(this.scoreKey)){
+            SaveGame.Clear();
+        }
+    }
     
     public void saveToLeaderboard(){
         /*PlayerScore data = new PlayerScore(this.getScore(), System.DateTime.Today);
@@ -75,9 +81,9 @@ public class ScoreManager : MonoBehaviour
             }
         }
         */
-        this.scoreData = SaveGame.Load<Dictionary<System.DateTime, int>>(this.scoreKey);
         int counter = 0;
         if (SaveGame.Exists(this.scoreKey)){
+            this.scoreData = SaveGame.Load<Dictionary<System.DateTime, int>>(this.scoreKey);
             foreach(var dataList in this.scoreData){
                 /*texts[counter].text = dataList.Value + " - " + dataList.Key.ToString("dd/MM/yyyy") + " - " + dataList.Key.ToString("HH:mm");
                 texts[counter].gameObject.SetActive(true);

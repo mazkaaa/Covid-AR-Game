@@ -25,9 +25,14 @@ public class GameHandler : MonoBehaviour
 
     [SerializeField] private AudioClip virusAudio;
 
+    [Range(1.0f, 7.0f)]
+    [SerializeField] private float waveHitboxRadius;
+    [SerializeField] private float virusSpeed;
+    [SerializeField] private float virusHealth;
+
 
     public GameObject damageIndicator; //<--Assign in inspector.
-    public float damageDuration = 0.3f; //<--Show canvas for this duration each hit.
+    public float damageDuration = 0.1f; //<--Show canvas for this duration each hit.
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +40,9 @@ public class GameHandler : MonoBehaviour
         Time.timeScale = 0;
         this.menuHandler.openTutorScreen();
         HideDamageIndicator();
+
+        this.virusHealth = 5.0f;
+        this.virusSpeed = 0.5f;
     }
 
     // Update is called once per frame
@@ -58,9 +66,8 @@ public class GameHandler : MonoBehaviour
     private void spawnerHandler() {
         int chance = Random.Range(0, 100);
         if (chance > 98) {
-            if (this.enemyCount < this.enemySpawner.Length) {
+            if (this.enemyCount <= this.enemySpawner.Length) {
                 this.setRandomSpawnEnemy();
-                this.enemyCount++;
             }
         }
 
@@ -72,7 +79,8 @@ public class GameHandler : MonoBehaviour
     public void setRandomSpawnEnemy() {
         GameObject virusClone = Instantiate(enemyObject, enemySpawner[Random.Range(0, enemySpawner.Length)].transform);
         virusClone.transform.parent = null;
-        virusClone.GetComponent<Enemy>().setVirusHealth(5);
+        virusClone.GetComponent<Enemy>().setVirusSpeed(this.virusSpeed);
+        virusClone.GetComponent<Enemy>().setVirusHealth(this.virusHealth);
         virusClone.GetComponent<Enemy>().coinAPI = gameObject.GetComponent<Coin>();
         virusClone.GetComponent<Enemy>().weapon = gameObject.GetComponent<Weapon>();
         virusClone.GetComponent<Enemy>().playerAPI = gameObject.GetComponent<Player>();
@@ -82,7 +90,12 @@ public class GameHandler : MonoBehaviour
         virusClone.GetComponent<Enemy>().audioSource = virusClone.GetComponent<AudioSource>();
         virusClone.GetComponent<Enemy>().audioSource.clip = this.virusAudio;
         virusClone.GetComponent<Enemy>().audioSource = GetComponent<AudioSource>();
+        this.enemyCount++;
+    }
 
+    public void increaseVirusDiff(){
+        this.virusSpeed = this.virusSpeed + Random.Range(0.1f, 0.6f);
+        this.virusHealth = this.virusHealth + Random.Range(1.0f, 2.6f);
     }
 
     /// <summary>
@@ -112,6 +125,8 @@ public class GameHandler : MonoBehaviour
         this.setGameStarted(false);
         this.menuHandler.gameoverScreen();
         this.scoreManager.saveToLeaderboard();
+        this.HideDamageIndicator();
+        this.coinAPI.addTotalSavedCoin(this.coinAPI.getCurrentCoin());
     }
 
     public void takeVirusCount() {

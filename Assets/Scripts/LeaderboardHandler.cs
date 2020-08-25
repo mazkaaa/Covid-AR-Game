@@ -26,5 +26,9 @@ public class LeaderboardHandler : MonoBehaviour
             this.highscoreText[i].gameObject.SetActive(false);
         }
         this.scoreAPI.addDataToUI(highscoreText);
+    }   
+    public void resetLeaderboard(){
+        this.scoreAPI.resetLeaderboardData();
+        this.addDataToUI();
     }
 }

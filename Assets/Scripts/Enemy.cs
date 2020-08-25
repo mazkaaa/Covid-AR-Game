@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
             coinAPI.addCurrentCoin(Random.Range(1, 10));
             scoreManager.addScore(Random.Range(2, 18));
             this.dead();
+            this.audioSource.Play();
         }
         if (this.chasing){
             this.chase();
@@ -86,9 +87,9 @@ public class Enemy : MonoBehaviour
         //rb.isKinematic = false;
         this.setVirusMode(0);
         gameHandler.takeVirusCount();
+        gameHandler.increaseVirusDiff();
         Destroy(gameObject);
         Debug.Log("Virus touching player");
-        gameHandler.takeVirusCount();
     }
 
     public void takeDamage(float value) {
@@ -114,6 +115,9 @@ public class Enemy : MonoBehaviour
 
     public void setVirusHealth(float value){
         this.healthPoint = value;
+    }
+    public void setVirusSpeed(float value){
+        this.virusSpeed = value;
     }
 
     private void OnTriggerEnter(Collider other) {
